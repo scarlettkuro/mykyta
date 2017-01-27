@@ -12,12 +12,17 @@ $services = [
 	'gmail.com' => [
 		'host' => 'smtp.gmail.com',
 		'port' => 465,
-		'encrypt' = 'ssl'
+		'encrypt' => 'ssl'
 	],
 	'yandex.ru' => [
 		'host' => 'smtp.yandex.ru',
 		'port' => 465,
-		'encrypt' = 'ssl'
+		'encrypt' => 'ssl'
+	],
+	'mail.ru' => [
+		'host' => 'smtp.mail.ru',
+		'port' => 465,
+		'encrypt' => 'ssl'
 	]
 ];
 
