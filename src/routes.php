@@ -6,7 +6,7 @@ $app->get('/', function ($request, $response, $args) {
     return $this->renderer->render($response, 'index.phtml');
 });
 
-$app->get('/send', function ($request, $response, $args) {
+$app->post('/send', function ($request, $response, $args) {
 
 	$data = $request->getParsedBody();
     $username = filter_var($data['username'], FILTER_SANITIZE_STRING);
@@ -30,5 +30,5 @@ $app->get('/send', function ($request, $response, $args) {
 
 	$mailer->send($message);
 
-   return $response->withRedirect('/')
+   return $response->withRedirect('/');
 });
