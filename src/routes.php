@@ -40,8 +40,8 @@ $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
 $mail->SMTPAuth = true;                               // Enable SMTP authentication
 $mail->Username = $username;                 // SMTP username
 $mail->Password = $password;                           // SMTP password
-$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-$mail->Port = 587;                                    // TCP port to connect to
+$mail->SMTPSecure= "ssl"; 
+$mail->Port= 465;                                  // TCP port to connect to
 
 $mail->setFrom($username, 'JoJo');
 $mail->addAddress($to);                                 // Set email format to HTML
