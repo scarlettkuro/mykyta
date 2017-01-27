@@ -8,6 +8,19 @@ $app->get('/', function ($request, $response, $args) {
 
 $app->post('/send', function ($request, $response, $args) {
 
+$services = [
+	'gmail.com' => [
+		'host' => 'smtp.gmail.com',
+		'port' => 465,
+		'encrypt' = 'ssl'
+	],
+	'yandex.ru' => [
+		'host' => 'smtp.yandex.ru',
+		'port' => 465,
+		'encrypt' = 'ssl'
+	]
+];
+
 	$data = $request->getParsedBody();
     $username = filter_var($data['username'], FILTER_SANITIZE_STRING);
     $password = filter_var($data['password'], FILTER_SANITIZE_STRING);
@@ -20,43 +33,19 @@ $app->post('/send', function ($request, $response, $args) {
 	  ->setTo([$to])
 	  ->setBody($text)
 	  ;
-/*
-	$transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465)
-	  ->setUsername($username)
-	  ->setPassword($password)
-	  ;
-*/
-$transport = Swift_SmtpTransport::newInstance()
-  ->setHost('smtp.gmail.com')
-  ->setPort(465)
-  ->setEncryption('ssl')
+
+$service = $services[explode('@', $username)[1]];
+
+	$transport = Swift_SmtpTransport::newInstance()
+	  ->setHost($service['host'])
+	  ->setPort($service['port'])
+	  ->setEncryption($service['encrypt'])
 	  ->setUsername($username)
 	  ->setPassword($password);
 	$mailer = Swift_Mailer::newInstance($transport);
 
 	$mailer->send($message);
 
-/*
-$mail = new PHPMailer;                             // Enable verbose debug output
 
-$mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-$mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = $username;                 // SMTP username
-$mail->Password = $password;                           // SMTP password
-$mail->SMTPSecure= "ssl"; 
-$mail->Port= 465;                                  // TCP port to connect to
-
-$mail->setFrom($username, 'JoJo');
-$mail->addAddress($to);                                 // Set email format to HTML
-
-$mail->Subject = '[mykyta]';
-$mail->Body    = $text;
-
-
-if(!$mail->send()) {
-    throw new \Exception('Mailer Error: ' . $mail->ErrorInfo);
-} 
-*/
    return $response->withRedirect('/');
 });
